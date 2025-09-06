@@ -179,6 +179,13 @@ async function updateCategoryCounts() {
       allNavItem.textContent = currentPrompts.length.toString();
     }
     
+    // 更新"精选"分类的计数（置顶的提示词）
+    const featuredCount = currentPrompts.filter(prompt => prompt.pinned).length;
+    const featuredNavItem = document.querySelector('[data-category="featured"] .count');
+    if (featuredNavItem) {
+      featuredNavItem.textContent = featuredCount.toString();
+    }
+    
     // 更新现有分类的计数
     const allNavItems = document.querySelectorAll('.nav-item[data-category]');
     allNavItems.forEach(item => {
@@ -201,6 +208,13 @@ async function updateCategoryCounts() {
     const allNavItem = document.querySelector('[data-category="all"] .count');
     if (allNavItem) {
       allNavItem.textContent = currentPrompts.length.toString();
+    }
+    
+    // 同时更新"精选"分类
+    const featuredCount = currentPrompts.filter(prompt => prompt.pinned).length;
+    const featuredNavItem = document.querySelector('[data-category="featured"] .count');
+    if (featuredNavItem) {
+      featuredNavItem.textContent = featuredCount.toString();
     }
   }
 }

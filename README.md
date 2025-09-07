@@ -47,13 +47,24 @@
 ### ✨ 核心功能特性
 
 *   ✍️ **Prompt 管理**： 像管理笔记一样，轻松创建、编辑、搜索和组织你的所有 Prompt。
-*   💻 **跨平台运行**： 目前支持 macOS，未来将支持 Windows 和 Linux，提供原生般流畅的体验。
+*   💻 **跨平台运行**： 支持 macOS 和 Windows，Linux 支持即将到来，提供原生般流畅的体验。
 *   🚀 **轻量与高效**： 基于 Rust 和 Web 前沿技术构建，启动飞快，占用资源少，告别卡顿。
 *   🔐 **本地优先，安全私密**： 你的所有数据都存储在本地计算机上，无需担心隐私泄露，数据由你一手掌控。
 
 ### 📥 下载与安装
 
-您可以直接从 **[GitHub Releases](https://github.com/jwangkun/Prompt-Tools/releases/latest)** 页面下载最新的预编译版本。目前仅提供 macOS (Apple Silicon) 版本。
+您可以直接从 **[GitHub Releases](https://github.com/jwangkun/Prompt-Tools/releases/latest)** 页面下载最新的预编译版本。
+
+#### 支持的平台
+
+- **macOS** (Apple Silicon, Intel) - ✅ 已支持
+- **Windows** (x64, ARM64) - ✅ 已支持  
+- **Linux** (x64, ARM64) - 🔄 开发中
+
+#### 平台特定说明
+
+- **Windows 用户**: 请查看 [Windows 平台支持文档](./doc/Windows平台支持.md)
+- **macOS 用户**: 首次启动时可能需要在系统偏好设置中允许应用运行
 
 ---
 
@@ -97,10 +108,19 @@
 
 ### 📦 构建应用
 
-如果你想打包成可执行的应用程序，只需运行：
+如果你想打包成可执行的应用程序：
 
 ```bash
+# 构建当前平台
 pnpm tauri:build
+
+# 构建 Windows 版本
+pnpm tauri:build:win          # x64 版本
+pnpm tauri:build:win-arm      # ARM64 版本
+
+# 构建 macOS 版本
+pnpm tauri:build:mac          # Apple Silicon
+pnpm tauri:build:mac-intel    # Intel
 ```
 
 可执行文件将位于 `src-tauri/target/release/` 目录中，而完整的安装包则在 `src-tauri/target/release/bundle/` 目录下。

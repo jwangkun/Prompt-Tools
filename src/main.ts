@@ -9,6 +9,9 @@ let isGridView = true;
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('Prompt Tools 启动中...');
   
+  // 初始化平台信息
+  await initPlatformInfo();
+  
   // 初始化键盘快捷键
   initKeyboardShortcuts();
   
@@ -680,17 +683,87 @@ function openSettings() {
   showNotification('设置功能开发中...', 'info');
 }
 
+// 平台检测和快捷键工具函数
+let platformInfo: any = null;
+
+// 初始化平台信息
+async function initPlatformInfo() {
+  try {
+    platformInfo = await invoke('get_platform_info');
+    console.log('平台信息:', platformInfo);
+  } catch (error) {
+    console.error('获取平台信息失败:', error);
+    // 降级处理：使用浏览器检测
+    platformInfo = getPlatformInfoFromBrowser();
+  }
+}
+
+// 从浏览器检测平台信息（降级方案）
+function getPlatformInfoFromBrowser() {
+  const platform = navigator.platform.toLowerCase();
+  const userAgent = navigator.userAgent.toLowerCase();
+  
+  const isWindows = platform.includes('win') || userAgent.includes('win');
+  const isMacOS = platform.includes('mac') || userAgent.includes('mac');
+  const isLinux = platform.includes('linux');
+  
+  return {
+    os: isWindows ? 'windows' : isMacOS ? 'macos' : 'linux',
+    isWindows,
+    isMacOS,
+    isLinux,
+    displayName: isWindows ? 'Windows' : isMacOS ? 'macOS' : 'Linux',
+    modifierKey: isMacOS ? 'Cmd' : 'Ctrl',
+    pathSeparator: isWindows ? '\\' : '/',
+    isSupported: true
+  };
+}
+
+function getPlatformInfo() {
+  if (platformInfo) {
+    return platformInfo;
+  }
+  
+  // 如果没有初始化，使用浏览器检测
+  return getPlatformInfoFromBrowser();
+}
+
+function getModifierKey(): string {
+  const info = getPlatformInfo();
+  return info.modifierKey || (info.isMacOS ? 'Cmd' : 'Ctrl');
+}
+
+function isModifierPressed(e: KeyboardEvent): boolean {
+  const info = getPlatformInfo();
+  return info.isMacOS ? e.metaKey : e.ctrlKey;
+}
+
+// 获取平台特定的快捷键说明
+function getShortcutDescription(action: string): string {
+  const modifier = getModifierKey();
+  switch (action) {
+    case 'new': return `${modifier} + N`;
+    case 'save': return `${modifier} + S`;
+    case 'search': return `${modifier} + F`;
+    case 'quit': {
+      const info = getPlatformInfo();
+      return info.isMacOS ? `${modifier} + Q` : 'Alt + F4';
+    }
+    default: return '';
+  }
+}
+
 // 键盘快捷键
 function initKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
     // Ctrl/Cmd + N: 新建提示词
-    if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+    if (isModifierPressed(e) && e.key === 'n') {
       e.preventDefault();
       openModal();
     }
     
     // Ctrl/Cmd + F: 聚焦搜索框
-    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    if (isModifierPressed(e) && e.key === 'f') {
       e.preventDefault();
       const searchInput = document.getElementById('searchInput') as HTMLInputElement;
       if (searchInput) {
@@ -711,6 +784,16 @@ function initKeyboardShortcuts() {
       }
     }
   });
+  
+  // 在页面加载完成后显示快捷键提示
+  setTimeout(() => {
+    const info = getPlatformInfo();
+    const platformName = info.displayName || (info.isMacOS ? 'macOS' : info.isWindows ? 'Windows' : 'Linux');
+    console.log(`快捷键提示 (${platformName}):
+- ${getShortcutDescription('new')}: 新建提示词
+- ${getShortcutDescription('search')}: 搜索
+- ESC: 关闭模态框`);
+  }, 1000);
 }
 
 // 工具函数

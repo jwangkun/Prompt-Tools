@@ -1,9 +1,29 @@
 mod database;
+mod platform;
 
 use database::{Database, CreatePromptRequest, UpdatePromptRequest, Prompt, Version, ExportData, SearchResult};
+use platform::PlatformInfo;
 use tauri::Manager;
 
 // Tauri命令
+#[tauri::command]
+async fn get_platform_info() -> Result<serde_json::Value, String> {
+    let platform = PlatformInfo::current();
+    
+    let info = serde_json::json!({
+        "os": platform.os,
+        "isWindows": platform.is_windows,
+        "isMacOS": platform.is_macos,
+        "isLinux": platform.is_linux,
+        "displayName": platform.get_display_name(),
+        "modifierKey": platform.get_modifier_key_name(),
+        "pathSeparator": platform.get_path_separator().to_string(),
+        "isSupported": platform.is_supported()
+    });
+    
+    Ok(info)
+}
+
 #[tauri::command]
 async fn get_all_prompts(app_handle: tauri::AppHandle) -> Result<Vec<Prompt>, String> {
     let app_dir = app_handle
@@ -286,6 +306,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
+            get_platform_info,
             get_all_prompts,
             search_prompts,
             create_prompt,

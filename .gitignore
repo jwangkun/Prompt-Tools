@@ -22,3 +22,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tauri build outputs
+/src-tauri/target
+
+# Windows build tools and installers
+rustup-init.exe
+setup-build-env.bat
+
+# Export files and temporary data
+*-export-*.json
+prompt-tools-export-*.json
+
+# Build artifacts
+*.msi
+*.exe
+*.zip

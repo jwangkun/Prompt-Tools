@@ -46,14 +46,9 @@
         "template": null
       },
       "nsis": {
-        "template": null,
-        "license": null,
-        "headerImage": null,
-        "sidebarImage": null,
-        "installerIcon": null,
         "installMode": "perMachine",
-        "languages": ["English", "SimpChinese"],
-        "displayLanguageSelector": true
+        "languages": ["English"],
+        "displayLanguageSelector": false
       }
     },
     "macOS": {

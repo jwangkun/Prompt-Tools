@@ -1,3 +1,6 @@
+/* 导入更新器样式 */
+@import url('./styles/updater.css');
+
 /* CSS 变量定义 */
 :root {
   --primary: #007bff;

@@ -1,0 +1,387 @@
+/* 更新相关样式 */
+
+/* 检查更新按钮样式 */
+#checkUpdateBtn {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--text-primary, #333);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#checkUpdateBtn:hover {
+  background: var(--bg-hover, #f5f5f5);
+  color: var(--primary-color, #007bff);
+}
+
+.theme-dark #checkUpdateBtn {
+  color: var(--text-primary, #fff);
+}
+
+.theme-dark #checkUpdateBtn:hover {
+  background: var(--bg-hover, #333);
+}
+
+#checkUpdateBtn.checking {
+  pointer-events: none;
+}
+
+#checkUpdateBtn.checking i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 更新提示小红点 */
+#checkUpdateBtn::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  display: none;
+}
+
+#checkUpdateBtn.has-update::after {
+  display: block;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
+
+/* 更新对话框 */
+.update-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.update-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.25),
+    0 16px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center bottom;
+  color: #333333;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
++++++++ REPLACE</div>
+</replace_in_file>
+
+<replace_in_file id="mf0jdrir4rjwyqoe8lfkvl0uat8b8k165">
+<path>src/styles/updater.css</path>
+<diff>------- SEARCH
+.update-progress-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  backdrop-filter: blur(4px);
+}
+=======
+.update-progress-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.update-header {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333333;
+  padding: 24px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.update-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #333333;
+  opacity: 0.8;
+}
+
+.update-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333333;
+}
+
+.update-version {
+  font-size: 16px;
+  opacity: 0.7;
+  font-weight: 500;
+  color: #555555;
+}
+
+.update-content {
+  padding: 24px;
+}
+
+.update-body {
+  color: #555555;
+  line-height: 1.6;
+  font-size: 15px;
+  white-space: pre-wrap;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.update-actions {
+  padding: 0 24px 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.update-actions .btn {
+  min-width: 120px;
+}
+
+/* 更新进度对话框 */
+.update-progress-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  backdrop-filter: blur(4px);
+}
+
+.update-progress-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 0;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.25),
+    0 16px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center bottom;
+  color: #333333;
+}
+
+.update-progress-header {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333333;
+  padding: 24px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.update-progress-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  color: #333333;
+  opacity: 0.8;
+}
+
+.update-progress-icon i {
+  animation: pulse 2s infinite;
+  color: #333333;
+}
+
+.update-progress-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.update-progress-content {
+  padding: 24px;
+}
+
+.progress-bar-container {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 8px;
+}
+
+.progress-text {
+  text-align: center;
+  color: #555555;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 主题适配 - 统一使用白色半透明背景 */
+.theme-dark .update-container,
+.theme-dark .update-progress-container,
+.theme-light .update-container,
+.theme-light .update-progress-container {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.25),
+    0 16px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #333333;
+}
+
+.theme-dark .update-body,
+.theme-dark .progress-text,
+.theme-light .update-body,
+.theme-light .progress-text {
+  color: #555555;
+}
+
+.theme-dark .progress-bar-container,
+.theme-light .progress-bar-container {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.theme-dark .update-body,
+.theme-dark .progress-text {
+  color: var(--text-secondary);
+}
+
+.theme-dark .progress-bar-container {
+  background: var(--bg-secondary);
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .update-container,
+  .update-progress-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+  
+  .update-header,
+  .update-progress-header {
+    padding: 20px;
+  }
+  
+  .update-content,
+  .update-progress-content {
+    padding: 20px;
+  }
+  
+  .update-actions {
+    padding: 0 20px 20px;
+    flex-direction: column;
+  }
+  
+  .update-actions .btn {
+    width: 100%;
+  }
+  
+  .update-icon {
+    font-size: 40px;
+  }
+  
+  .update-title {
+    font-size: 20px;
+  }
+}

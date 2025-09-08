@@ -1,5 +1,7 @@
 import './styles.css';
 import { invoke } from '@tauri-apps/api/core';
+import { autoCheckForUpdates, checkForUpdates } from './updater';
+import { testUpdateFlow } from './test-updater';
 
 // 应用状态
 let currentPrompts: any[] = [];
@@ -20,6 +22,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // 初始化主题
   initTheme();
+  
+  // 启动时自动检查更新
+  autoCheckForUpdates();
 });
 
 // 绑定事件监听器
@@ -43,6 +48,16 @@ function bindEvents() {
   document.getElementById('viewToggle')?.addEventListener('click', toggleView);
   document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
   document.getElementById('settingsBtn')?.addEventListener('click', openSettings);
+  document.getElementById('checkUpdateBtn')?.addEventListener('click', () => {
+    // 在开发环境中使用测试功能，生产环境中使用真实更新
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      console.log('🧪 开发环境：启动测试更新流程');
+      testUpdateFlow();
+    } else {
+      console.log('🚀 生产环境：检查真实更新');
+      checkForUpdates(true);
+    }
+  });
   
   // 优化提示词按钮
   document.getElementById('optimizePromptBtn')?.addEventListener('click', optimizePrompt);

@@ -59,6 +59,12 @@
 
 您可以直接从 **[GitHub Releases](https://github.com/jwangkun/Prompt-Tools/releases/latest)** 页面下载最新的预编译版本。目前仅提供 macOS (Apple Silicon) 版本。
 
+如果安装出现提示文件损坏，请执行以下命令进行修复：
+
+```bash
+xattr -d com.apple.quarantine /Applications/Prompt\ Tools.app
+```
+
 ---
 
 ## 👨‍💻 面向开发者

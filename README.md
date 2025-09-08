@@ -44,6 +44,10 @@
 
 ![应用截图](./image.png)
 
+## 赞助商  
+
+![alt text](UpgradeLink.png)
+
 ### ✨ 核心功能特性
 
 *   ✍️ **Prompt 管理**： 像管理笔记一样，轻松创建、编辑、搜索和组织你的所有 Prompt。

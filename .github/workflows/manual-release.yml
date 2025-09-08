@@ -231,6 +231,8 @@ jobs:
     needs: [build-ubuntu, build-windows, build-macos-intel, build-macos-arm]
     if: always()
     runs-on: ubuntu-22.04
+    outputs:
+      release_version: ${{ steps.extract_version.outputs.version }}
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
@@ -239,6 +241,15 @@ jobs:
       
       - name: Display structure of downloaded files
         run: ls -R artifacts
+      
+      - name: Extract version number
+        id: extract_version
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          # 移除 'v' 前缀（如果存在）
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
       
       - name: Create GitHub Release and upload assets
         uses: softprops/action-gh-release@v2
@@ -256,3 +267,16 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: ${{ github.event.inputs.prerelease }}
+
+  upgradelink-upload:
+    needs: release
+    if: always() && needs.release.result == 'success'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Send update to UpgradeLink
+        uses: toolsetlink/upgradelink-action@v5
+        with:
+          source-url: 'https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/latest.json'
+          access-key: ${{ secrets.UPGRADE_LINK_ACCESS_KEY }}
+          tauri-key: ${{ secrets.UPGRADE_LINK_TAURI_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

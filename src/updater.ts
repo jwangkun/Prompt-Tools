@@ -54,9 +54,19 @@ export async function checkForUpdates(showNoUpdateMessage = false): Promise<void
               updateProgressText('正在下载更新...');
               break;
             case 'Progress':
-              // 简化进度显示，避免类型错误
-              console.log('下载进度更新');
-              updateProgressText('正在下载更新...');
+              // 更新进度条和文本
+              console.log('下载进度更新', event);
+              if (event.data && typeof event.data.chunkLength === 'number') {
+                // 由于无法获取总大小，使用动态进度显示
+                const chunkLength = event.data.chunkLength;
+                const progressPercent = Math.min(Math.round(chunkLength / 1024 / 1024), 100); // 简单的进度估算
+                updateProgressBar(progressPercent);
+                updateProgressText(`正在下载更新... ${Math.round(chunkLength / 1024)} KB`);
+              } else {
+                // 使用脉冲动画显示不确定进度
+                updateProgressBar(50); // 显示50%作为不确定进度
+                updateProgressText('正在下载更新...');
+              }
               break;
             case 'Finished':
               console.log('更新下载完成');
